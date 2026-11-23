@@ -1,3 +1,6 @@
+mod parsing;
+pub use crate::parsing::parser;
+
 use std::io;
 
 fn main()
@@ -23,10 +26,7 @@ fn main()
     println!("{}", input);
 
 
-    match trimmed_string.parse::<i32>() {
-        Ok(i) =>  println!("Here's your integer {}", i),
-        Err(..) => println!("Not an integer \'{}\'", input.trim()),
-    }
+    parser::get_integer();
 
     /* we could've used unwrap() instead of expect() */
     let br: i32 = trimmed_string.parse::<i32>().expect("Invalid number\n");
