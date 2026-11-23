@@ -1,5 +1,4 @@
 mod parsing;
-pub use crate::parsing::parser;
 
 use std::io;
 
