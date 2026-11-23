@@ -28,6 +28,7 @@ fn main()
         Err(..) => println!("Not an integer \'{}\'", input.trim()),
     }
 
-    let br: i32 = trimmed_string.parse::<i32>().expect("Stupid");
+    /* we could've used unwrap() instead of expect() */
+    let br: i32 = trimmed_string.parse::<i32>().expect("Invalid number\n");
     println!("Int: {}", br);
 }
