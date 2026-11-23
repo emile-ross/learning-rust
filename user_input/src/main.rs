@@ -1,9 +1,5 @@
 use std::io;
 
-/*
-use std::io::prelude::*;
-*/
-
 fn main()
 {
     let user_string: &'static str = "You should type in a string of reasonable size";
@@ -14,6 +10,15 @@ fn main()
      * unwrap() uses the result from the read_line() function
      * expect() would be better practice */
     io::stdin().read_line(&mut input).unwrap();
+
+    /* input.trim() could've been used in order to remove 
+     * newline characters 
+     * trim_end() removes newlines from the end of a string */
+    let trimmed_string = input.trim_end();
+
+    println!("{}", trimmed_string);     /* does not display a newline */
+
+    println!("{}", input.trim());   /* also doesn't display any newline */
 
     println!("{}", input);
 }
