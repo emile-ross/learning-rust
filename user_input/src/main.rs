@@ -21,4 +21,13 @@ fn main()
     println!("{}", input.trim());   /* also doesn't display any newline */
 
     println!("{}", input);
+
+
+    match trimmed_string.parse::<i32>() {
+        Ok(i) =>  println!("Here's your integer {}", i),
+        Err(..) => println!("Not an integer \'{}\'", input.trim()),
+    }
+
+    let br: i32 = trimmed_string.parse::<i32>().expect("Stupid");
+    println!("Int: {}", br);
 }
