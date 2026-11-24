@@ -1,19 +1,20 @@
 mod operations;
 
 fn main() {
-    println!("Hello, world! {} ", operations::add(1, 2));
+    println!("return value of add: {} ", operations::add(1, 2));
 
-
-
+    /* no i of type i32 declaration
+     * it is not needed for an iterator */
     for i in 1..10
     {
-        println!("Helloooooooo");
+        println!("{}", i % 2 == 0); /* print a boolean as string */
         println!("{}", i);
     }
-    /* 
-    while i < 10 {
-        println!("Helloooooooo");
-        i += 1;
-    };
-    */
+
+    printt("string".to_string());
+}
+
+fn printt(string: String)
+{
+    println!("{}", string);
 }
