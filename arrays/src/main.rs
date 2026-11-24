@@ -1,8 +1,15 @@
 fn main() {
-    let names = vec!["Bob", "Frank", "Ferris"];
+    let names: Vec<&str> = vec!["Bob", "Frank", "Ferris"];
     for name in names.iter()
     {
         println!("{}", name);
+    }
+
+    let values: Vec<i32> = vec![4, 5, 1, 2];
+
+    for val in values.iter()
+    {
+        println!("{}", val);
     }
 }
 
