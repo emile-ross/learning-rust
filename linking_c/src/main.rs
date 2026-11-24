@@ -15,11 +15,8 @@ fn main() {
         hello_world();
         sum = add_operation(a, b);
         divided = divide(a, b);
-        c_string = unsafe { get_input() };
-        rust_string = unsafe {
-            CStr::from_ptr(c_string).to_string_lossy().into_owned()
-        };
-
+        c_string = get_input();
+        rust_string = CStr::from_ptr(c_string).to_string_lossy().into_owned();
     }
 
     println!("the sum is : \'{}\'", sum);

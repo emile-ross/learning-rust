@@ -4,9 +4,11 @@
 
 #define MAX_SIZE 128
 
+void *smalloc(size_t size);
+
 char *get_input(void)
 {
-	char *input_buffer = malloc(MAX_SIZE);
+	char *input_buffer = smalloc(MAX_SIZE);
 
 	if (!(fgets(input_buffer, MAX_SIZE - 1, stdin)))
 	{
@@ -15,7 +17,7 @@ char *get_input(void)
 	}
 
 	size_t index = strcspn(input_buffer, "\n\t");
-	printf("\'%c\'\n", input_buffer[index]);
+	input_buffer[index] = '\0';
 
 	return input_buffer;
 }
