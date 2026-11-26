@@ -23,6 +23,10 @@ fn main() {
         {
             state = ParsingStates::LetterSearch;
         }
+        else if arg == "-f" || arg == "--file"
+        {
+            state = ParsingStates::FilenameSearch;
+        }
         else if arg == "-w" || arg == "--word-list"
         {
             state = ParsingStates::ListSearch;
@@ -42,21 +46,23 @@ fn main() {
             println!("Unknown argument: {}", arg);
         */
 
-        /* 
-        match state { 
-            ParsingStates::UndefinedSearch => println!("Is undefined"), 
-            _=> println!("A"),
-        }
-        println!("Unknown State");
-        */
-
-        if state as i32 != ParsingStates::UndefinedSearch as i32
-        {
-            /*  TODO Add a switch for states 
-            match state {
-            }
-            */
+        match state {
+            ParsingStates::LetterSearch => getLetter(&data_ch, arg.clone()), 
+            _=> todo!()
         }
         println!("Arg: {} at {}", arg, i);
     }
+}
+
+
+
+fn getLetter(data_ch: &char, argument: String)
+{
+    if argument.len() > 1
+    {
+        println!("Argument is of size greater than 0");
+    } else {
+        println!("You're fine");
+    }
+    // *data_ch = argument[0];
 }
