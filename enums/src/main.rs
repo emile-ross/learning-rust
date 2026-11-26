@@ -14,6 +14,8 @@ fn main() {
     let argv: Vec<String> = std::env::args().collect();
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
 
+    let data_ch: char = '\0';
+
     for (i, arg) in argv.iter().enumerate()
     {
         /* parsing arguments (-s -a -i -x) */
@@ -34,10 +36,19 @@ fn main() {
             /* return the version number */
             state = ParsingStates::UndefinedSearch;
         }
-        else if state as i32 != ParsingStates::UndefinedSearch as i32
-        {
+        /* if argument is unknown */
+        /* 
+        if state_int != ParsingStates::UndefinedSearch as i32
             println!("Unknown argument: {}", arg);
+        */
+
+        /* 
+        match state { 
+            ParsingStates::UndefinedSearch => println!("Is undefined"), 
+            _=> println!("A"),
         }
+        println!("Unknown State");
+        */
 
         if state as i32 != ParsingStates::UndefinedSearch as i32
         {
@@ -46,6 +57,6 @@ fn main() {
             }
             */
         }
-        println!("{} at {}", arg, i)
+        println!("Arg: {} at {}", arg, i);
     }
 }
