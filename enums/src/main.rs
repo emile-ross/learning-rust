@@ -17,25 +17,35 @@ fn main() {
     for (i, arg) in argv.iter().enumerate()
     {
         /* parsing arguments (-s -a -i -x) */
-        if arg == "-w" || arg == "--word-list"
-
-        if arg == "-w" || arg == "--word-list"
+        if arg == "-s" || arg == "--strict"
+        {
+            state = ParsingStates::LetterSearch;
+        }
+        else if arg == "-w" || arg == "--word-list"
         {
             state = ParsingStates::ListSearch;
         }
         else if arg == "-v" || arg == "--validate"
         {
-            state = ParsingStates::ListSearch;
+            state = ParsingStates::WordSearch;
         }
         else if arg == "--release" || arg == "--version"
         {
             /* return the version number */
             state = ParsingStates::UndefinedSearch;
         }
-        match state
+        else if state as i32 != ParsingStates::UndefinedSearch as i32
         {
+            println!("Unknown argument: {}", arg);
+        }
+
+        if state as i32 != ParsingStates::UndefinedSearch as i32
+        {
+            /*  TODO Add a switch for states 
+            match state {
+            }
+            */
         }
         println!("{} at {}", arg, i)
     }
-        
 }
