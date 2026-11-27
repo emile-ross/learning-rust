@@ -25,7 +25,7 @@ fn main()
 {
     let argv: Vec<String> = std::env::args().collect();
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
-    let mut prev_flag_type : Flag =  ParsingStates::UndefinedSearch;
+    let mut prev_flag_type : Flag =  Flag::Unknown;
 
     let data_ch: char = '\0';
     let mut data_idx: usize = 0;
@@ -34,15 +34,30 @@ fn main()
     { 
         match state
         {
-            ParsingStates::FlagSearch || ParsingStates::ModeSearch => {
+            ParsingStates::FlagSearch | ParsingStates::ModeSearch => {
                 if arg == "-i" || arg == "--includes"
                 {
                     println!("Includes flag");
+                    prev_flag_type = Flag::Excludes;
+                    state = ParsingStates::LetterSearch;
+                }
+                else if arg == "-a" || arg == "--absent"
+                {
+                    println!("Excludes flag");
+                    prev_flag_type = Flag::Excludes;
+                    state = ParsingStates::LetterSearch;
+                }
+                else if arg == "-x" || arg == "--strict"
+                {
+                    println!("Excludes flag");
+                    prev_flag_type = Flag::Excludes;
+                    state = ParsingStates::LetterSearch;
                 }
                 else if arg == "-x" || arg == "--excludes"
                 {
                     println!("Excludes flag");
                     prev_flag_type = Flag::Excludes;
+                    state = ParsingStates::LetterSearch;
                 }
                 else if arg == "-f" || arg == "--file"
                 {
@@ -73,7 +88,7 @@ fn main()
             },
             ParsingStates::ModeSearch => {
             },
-            _=> println!("AA"),
+            _=> println!("Skip"),
         }
         println!("Arg: {} at {}", arg, i);
     }
