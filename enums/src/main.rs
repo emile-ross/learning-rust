@@ -16,6 +16,7 @@ fn main()
 {
     let argv: Vec<String> = std::env::args().collect();
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
+    let mut prev_flag_type : ParsingStates =  ParsingStates::UndefinedSearch;
 
     let data_ch: char = '\0';
     let mut data_idx: usize = 0;
@@ -42,32 +43,26 @@ fn main()
             ParsingStates::ListSearch => {
                 println!("This is the word list: {}", arg);
             },
-
-            if arg == "-f" || arg == "--file"
-            {
-                state = ParsingStates::FilenameSearch;
-            }
-            else if arg == "-w" || arg == "--word-list"
-            {
-                state = ParsingStates::ListSearch;
-            }
-            else if arg == "-v" || arg == "--validate"
-            {
-                state = ParsingStates::WordSearch;
-            }
-            else if arg == "--release" || arg == "--version"
-            {
-                /* return the version number */
-                state = ParsingStates::UndefinedSearch;
-            }
+            ParsingStates::ModeSearch => {
+                if arg == "-f" || arg == "--file"
+                {
+                    state = ParsingStates::FilenameSearch;
+                }
+                else if arg == "-w" || arg == "--word-list"
+                {
+                    state = ParsingStates::ListSearch;
+                }
+                else if arg == "-v" || arg == "--validate"
+                {
+                    state = ParsingStates::WordSearch;
+                }
+                else if arg == "--release" || arg == "--version"
+                {
+                    /* return the version number */
+                    state = ParsingStates::UndefinedSearch;
+                }
+            },
             _=> println!("AA"),
-        }
-        }
-        else 
-        {
-            match state {
-                _=> todo!()
-            }
         }
         println!("Arg: {} at {}", arg, i);
     }
