@@ -8,7 +8,7 @@ enum ParsingStates
     IndexSearch,
     FilenameSearch,
     WordSearch,
-    ModeSearch
+    ModeSearch,
     ListSearch
 }
 
@@ -28,21 +28,22 @@ fn main()
                 {
                     println!("Includes flag");
                 }
+                else if arg == "-x" || arg == "--excludes"
+                {
+                    println!("Excludes flag");
+                }
             },
+            ParsingStates::LetterSearch => {
+                get_letter(&data_ch, arg.clone())
+            }, 
             ParsingStates::IndexSearch => data_idx = arg.parse::<usize>().expect("Invalid integer"),
             ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
         
             ParsingStates::ListSearch => {
                 println!("This is the word list: {}", arg);
-            }
-        }
-        if state as i32 == ParsingStates::FlagSearch as i32
-        {
-            if arg == "-s" || arg == "--strict"
-            {
-                state = ParsingStates::LetterSearch;
-            }
-            else if arg == "-f" || arg == "--file"
+            },
+
+            if arg == "-f" || arg == "--file"
             {
                 state = ParsingStates::FilenameSearch;
             }
@@ -59,20 +60,18 @@ fn main()
                 /* return the version number */
                 state = ParsingStates::UndefinedSearch;
             }
+            _=> println!("AA"),
+        }
         }
         else 
         {
             match state {
-                ParsingStates::LetterSearch => getLetter(&data_ch, arg.clone()), 
-                ParsingStates::IndexSearch => getLetter(&data_ch, arg.clone()), 
-                ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
                 _=> todo!()
             }
         }
         println!("Arg: {} at {}", arg, i);
     }
 }
-
 
 
 fn get_letter(data_ch: &char, argument: String)
@@ -86,7 +85,9 @@ fn get_letter(data_ch: &char, argument: String)
     // *data_ch = argument[0];
 }
 
+/* 
 fn get_index(mut data_idx: &usize, argument: &String)
 {
     data_idx = argument.parse::<usize>().expect("Bruh");
 }
+*/
