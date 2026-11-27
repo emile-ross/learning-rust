@@ -22,15 +22,18 @@ fn main()
 
     for (i, arg) in argv.iter().enumerate()
     { 
-        if state as i32 == ParsingStates::FlagSearch as i32
-        {
-            if arg == "-i" || arg == "--includes"
-            {
-                println!("Includes flag");
-            }
-            else if arg == "-x" || arg == "--excludes"
-            {
-                println!("Excludes flag");
+        match state {
+            ParsingStates::FlagSearch => {
+                if arg == "-i" || arg == "--includes"
+                {
+                    println!("Includes flag");
+                }
+            },
+            ParsingStates::IndexSearch => data_idx = arg.parse::<usize>().expect("Invalid integer"),
+            ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
+        
+            ParsingStates::ListSearch => {
+                println!("This is the word list: {}", arg);
             }
         }
         if state as i32 == ParsingStates::FlagSearch as i32
