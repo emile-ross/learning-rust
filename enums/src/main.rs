@@ -8,8 +8,8 @@ enum ParsingStates
     IndexSearch,
     FilenameSearch,
     WordSearch,
-    ListSearch,
     ModeSearch
+    ListSearch
 }
 
 fn main()
@@ -18,12 +18,23 @@ fn main()
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
 
     let data_ch: char = '\0';
+    let mut data_idx: usize = 0;
 
     for (i, arg) in argv.iter().enumerate()
-    {
+    { 
         if state as i32 == ParsingStates::FlagSearch as i32
         {
-            /* parsing arguments (-s -a -i -x) */
+            if arg == "-i" || arg == "--includes"
+            {
+                println!("Includes flag");
+            }
+            else if arg == "-x" || arg == "--excludes"
+            {
+                println!("Excludes flag");
+            }
+        }
+        if state as i32 == ParsingStates::FlagSearch as i32
+        {
             if arg == "-s" || arg == "--strict"
             {
                 state = ParsingStates::LetterSearch;
@@ -61,13 +72,18 @@ fn main()
 
 
 
-fn getLetter(data_ch: &char, argument: String)
+fn get_letter(data_ch: &char, argument: String)
 {
-    if argument.len() > 1
-    {
+    if argument.len() > 1 {
         println!("Argument is of size greater than 0");
     } else {
         println!("You're fine");
     }
+    // TODO set the data_ch to the first letter of the argument
     // *data_ch = argument[0];
+}
+
+fn get_index(mut data_idx: &usize, argument: &String)
+{
+    data_idx = argument.parse::<usize>().expect("Bruh");
 }
