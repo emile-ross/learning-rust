@@ -1,3 +1,5 @@
+#[derive(Copy, Clone)]
+
 enum ParsingStates 
 {
     UndefinedSearch,
@@ -10,7 +12,8 @@ enum ParsingStates
     ModeSearch
 }
 
-fn main() {
+fn main()
+{
     let argv: Vec<String> = std::env::args().collect();
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
 
@@ -18,37 +21,39 @@ fn main() {
 
     for (i, arg) in argv.iter().enumerate()
     {
-        /* parsing arguments (-s -a -i -x) */
-        if arg == "-s" || arg == "--strict"
+        if state as i32 == ParsingStates::FlagSearch as i32
         {
-            state = ParsingStates::LetterSearch;
+            /* parsing arguments (-s -a -i -x) */
+            if arg == "-s" || arg == "--strict"
+            {
+                state = ParsingStates::LetterSearch;
+            }
+            else if arg == "-f" || arg == "--file"
+            {
+                state = ParsingStates::FilenameSearch;
+            }
+            else if arg == "-w" || arg == "--word-list"
+            {
+                state = ParsingStates::ListSearch;
+            }
+            else if arg == "-v" || arg == "--validate"
+            {
+                state = ParsingStates::WordSearch;
+            }
+            else if arg == "--release" || arg == "--version"
+            {
+                /* return the version number */
+                state = ParsingStates::UndefinedSearch;
+            }
         }
-        else if arg == "-f" || arg == "--file"
+        else 
         {
-            state = ParsingStates::FilenameSearch;
-        }
-        else if arg == "-w" || arg == "--word-list"
-        {
-            state = ParsingStates::ListSearch;
-        }
-        else if arg == "-v" || arg == "--validate"
-        {
-            state = ParsingStates::WordSearch;
-        }
-        else if arg == "--release" || arg == "--version"
-        {
-            /* return the version number */
-            state = ParsingStates::UndefinedSearch;
-        }
-        /* if argument is unknown */
-        /* 
-        if state_int != ParsingStates::UndefinedSearch as i32
-            println!("Unknown argument: {}", arg);
-        */
-
-        match state {
-            ParsingStates::LetterSearch => getLetter(&data_ch, arg.clone()), 
-            _=> todo!()
+            match state {
+                ParsingStates::LetterSearch => getLetter(&data_ch, arg.clone()), 
+                ParsingStates::IndexSearch => getLetter(&data_ch, arg.clone()), 
+                ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
+                _=> todo!()
+            }
         }
         println!("Arg: {} at {}", arg, i);
     }
