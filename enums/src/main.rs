@@ -1,5 +1,14 @@
 #[derive(Copy, Clone)]
 
+enum Flag
+{
+    Strict,
+    Excludes,
+    Includes,
+    Absent,
+    Unknown
+}
+
 enum ParsingStates 
 {
     UndefinedSearch,
@@ -16,15 +25,16 @@ fn main()
 {
     let argv: Vec<String> = std::env::args().collect();
     let mut state : ParsingStates =  ParsingStates::UndefinedSearch;
-    let mut prev_flag_type : ParsingStates =  ParsingStates::UndefinedSearch;
+    let mut prev_flag_type : Flag =  ParsingStates::UndefinedSearch;
 
     let data_ch: char = '\0';
     let mut data_idx: usize = 0;
 
     for (i, arg) in argv.iter().enumerate()
     { 
-        match state {
-            ParsingStates::FlagSearch => {
+        match state
+        {
+            ParsingStates::FlagSearch || ParsingStates::ModeSearch => {
                 if arg == "-i" || arg == "--includes"
                 {
                     println!("Includes flag");
@@ -32,19 +42,9 @@ fn main()
                 else if arg == "-x" || arg == "--excludes"
                 {
                     println!("Excludes flag");
+                    prev_flag_type = Flag::Excludes;
                 }
-            },
-            ParsingStates::LetterSearch => {
-                get_letter(&data_ch, arg.clone())
-            }, 
-            ParsingStates::IndexSearch => data_idx = arg.parse::<usize>().expect("Invalid integer"),
-            ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
-        
-            ParsingStates::ListSearch => {
-                println!("This is the word list: {}", arg);
-            },
-            ParsingStates::ModeSearch => {
-                if arg == "-f" || arg == "--file"
+                else if arg == "-f" || arg == "--file"
                 {
                     state = ParsingStates::FilenameSearch;
                 }
@@ -61,6 +61,17 @@ fn main()
                     /* return the version number */
                     state = ParsingStates::UndefinedSearch;
                 }
+            },
+            ParsingStates::LetterSearch => {
+                get_letter(&data_ch, arg.clone())
+            }, 
+            ParsingStates::IndexSearch => data_idx = arg.parse::<usize>().expect("Invalid integer"),
+            ParsingStates::FlagSearch => println!("Broken logic (state is FlagSearch)\n"), 
+        
+            ParsingStates::ListSearch => {
+                println!("This is the word list: {}", arg);
+            },
+            ParsingStates::ModeSearch => {
             },
             _=> println!("AA"),
         }
